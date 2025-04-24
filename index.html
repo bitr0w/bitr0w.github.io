@@ -163,6 +163,26 @@
       text-decoration: underline;
     }
 
+    .social-icons {
+      margin-top: 5px;
+    }
+
+    .social-icons a {
+      margin: 0 8px;
+      display: inline-block;
+    }
+
+    .social-icons img {
+      width: 28px;
+      height: 28px;
+      filter: grayscale(100%) brightness(0);
+      transition: filter 0.3s ease;
+    }
+
+    .social-icons img:hover {
+      filter: none;
+    }
+
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
@@ -209,6 +229,16 @@
 
   <div class="footer">
     <p>Made with ❤️ by <a href="https://www.instagram.com/404.bitrow.notfound/">Tanvir Hasan</a></p>
+    <div class="social-icons">
+      <a href="https://github.com/bitr0w
+" target="_blank">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+      </a>
+      <a href="https://www.instagram.com/404.bitrow.notfound/
+" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+      </a>
+    </div>
   </div>
 
   <script>
@@ -236,7 +266,6 @@
       clearBtn.style.display = input.value ? "block" : "none";
     }
 
-    // ✅ Fix: hide clear button on page load if input is empty
     window.addEventListener("DOMContentLoaded", toggleClearBtn);
   </script>
 
