@@ -7,10 +7,16 @@
   <title>Tanvir's InfoHub™</title>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       font-family: 'Google Sans', Arial, sans-serif;
       margin: 0;
       background-color: #f4f4f4;
+      overflow-x: hidden;
+      scrollbar-width: none;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
     }
 
     .header {
@@ -37,12 +43,61 @@
       color: #777;
     }
 
+    .search-bar {
+      position: sticky;
+      top: 100px;
+      width: 100%;
+      text-align: center;
+      padding: 20px 20px 30px;
+      background-color: transparent;
+      z-index: 99;
+    }
+
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    .search-bar input {
+      width: 100%;
+      height: 40px;
+      padding: 0 40px 0 15px;
+      border: 1px solid #3ba36c;
+      background-color: #2c2c2c;
+      color: white;
+      border-radius: 6px;
+      font-size: 1em;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .search-bar input:focus {
+      border: 2px solid #A3F07B;
+    }
+
+    .search-bar input::placeholder {
+      color: #ccc;
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 10px;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 20px;
+      user-select: none;
+      display: none;
+    }
+
     .container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
-      padding: 140px 20px 80px;
+      padding: 230px 20px 80px;
     }
 
     .card {
@@ -80,11 +135,11 @@
       overflow-y: auto;
       flex-grow: 1;
       padding-right: 10px;
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none;
     }
 
     .card-text::-webkit-scrollbar {
-      display: none; /* Chrome, Safari */
+      display: none;
     }
 
     .footer {
@@ -117,17 +172,28 @@
       .card {
         width: 90%;
       }
+
+      .search-container {
+        width: 90%;
+      }
     }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <h1>Information Cards on Class-VII, Vivekananda</h1>
+    <h1>Information Cards on Class-VIII, Vivekananda</h1>
     <p>Proudly coded by <strong>Tanvir Hasan</strong></p>
   </div>
 
-  <div class="container">
+  <div class="search-bar">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search" oninput="searchCards(); toggleClearBtn();">
+      <span class="clear-btn" id="clearBtn" onclick="clearSearch()">×</span>
+    </div>
+  </div>
+
+  <div class="container" id="cardContainer">
     <div class="card">
       <div class="card-title">Card Title</div>
       <div class="card-text">This is a short description.</div>
@@ -136,15 +202,43 @@
     <div class="card">
       <div class="card-title">New Card</div>
       <div class="card-text">
-        You can keep adding cards, and all of You can keep adding cards, and all of You can keep adding cards, and all of You can keep adding cards, and all of You can keep adding cards, and all of You can keep adding cards. Longer text will scroll inside the card neatly without changing layout. When the text overflows, you can still scroll it—even though the scrollbar is hidden. Clean and neat!
+        You can keep adding cards, and all of You can keep adding cards. Longer text will scroll inside the card neatly without changing layout.
       </div>
     </div>
-        
   </div>
 
   <div class="footer">
     <p>Made with ❤️ by <a href="#">Tanvir Hasan</a></p>
   </div>
+
+  <script>
+    function searchCards() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".card");
+
+      cards.forEach(card => {
+        const title = card.querySelector(".card-title").textContent.toLowerCase();
+        const text = card.querySelector(".card-text").textContent.toLowerCase();
+        card.style.display = (title.includes(input) || text.includes(input)) ? "flex" : "none";
+      });
+    }
+
+    function clearSearch() {
+      const input = document.getElementById("searchInput");
+      input.value = "";
+      searchCards();
+      toggleClearBtn();
+    }
+
+    function toggleClearBtn() {
+      const input = document.getElementById("searchInput");
+      const clearBtn = document.getElementById("clearBtn");
+      clearBtn.style.display = input.value ? "block" : "none";
+    }
+
+    // ✅ Fix: hide clear button on page load if input is empty
+    window.addEventListener("DOMContentLoaded", toggleClearBtn);
+  </script>
 
 </body>
 </html>
