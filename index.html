@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/x-icon" href="icon.ico">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tanvir's InfoHub™</title>
+  <link rel="icon" type="image/x-icon" href="icon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet">
-  <meta name="color-scheme" content="light dark">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
   <style>
     :root {
       color-scheme: light dark;
@@ -41,7 +42,6 @@
       margin: 0;
       background-color: var(--bg-color);
       overflow-x: hidden;
-      scrollbar-width: none;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -69,7 +69,6 @@
       left: 20px;
       width: 80px;
       height: auto;
-      z-index: 101;
     }
 
     .header h1 {
@@ -120,10 +119,6 @@
       border: 2px solid var(--hover-outline);
     }
 
-    .search-bar input::placeholder {
-      color: var(--placeholder);
-    }
-
     .clear-btn {
       position: absolute;
       right: 10px;
@@ -148,7 +143,6 @@
       justify-content: center;
       gap: 20px;
       padding: 230px 20px 80px;
-      flex: 1;
     }
 
     .card {
@@ -158,8 +152,6 @@
       width: 300px;
       overflow: hidden;
       padding: 20px;
-      position: relative;
-      box-sizing: border-box;
       display: flex;
       flex-direction: column;
       height: 220px;
@@ -168,8 +160,6 @@
 
     .card:hover {
       outline: 3px solid var(--hover-outline);
-      outline-offset: 0px;
-      border-radius: 20px;
       box-shadow: 0 0 10px var(--hover-outline);
     }
 
@@ -234,21 +224,6 @@
       filter: none;
     }
 
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .card {
-        width: 90%;
-      }
-
-      .search-container {
-        width: 90%;
-      }
-    }
-
     .notice-banner {
       position: fixed;
       top: 30px;
@@ -267,13 +242,27 @@
     .notice-banner.show {
       right: 30px;
     }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .card {
+        width: 90%;
+      }
+
+      .search-container {
+        width: 90%;
+      }
+    }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <img src="logo.webp"
-         alt="Create Mod Logo">
+    <img src="logo.webp" alt="Logo">
     <h1>Information Cards on Class-VIII, Vivekananda</h1>
     <p>Proudly coded by <strong>Tanvir Hasan</strong></p>
   </div>
@@ -287,17 +276,7 @@
   </div>
 
   <div class="container" id="cardContainer">
-    <div class="card">
-      <div class="card-title">Card Title</div>
-      <div class="card-text">This is a short description.</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">New Card</div>
-      <div class="card-text">
-        You can keep adding cards, and all of You can keep adding cards. Longer text will scroll inside the card neatly without changing layout.
-      </div>
-    </div>
+    <!-- Cards will be populated dynamically -->
   </div>
 
   <div class="footer">
@@ -320,7 +299,6 @@
     function searchCards() {
       const input = document.getElementById("searchInput").value.toLowerCase();
       const cards = document.querySelectorAll(".card");
-
       cards.forEach(card => {
         const title = card.querySelector(".card-title").textContent.toLowerCase();
         const text = card.querySelector(".card-text").textContent.toLowerCase();
@@ -354,21 +332,55 @@
     }
 
     function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function populateCards(data) {
+      const container = document.getElementById('cardContainer');
+      container.innerHTML = '';
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const title = document.createElement('div');
+        title.className = 'card-title';
+        title.textContent = item.Title || "No Title";
+        const description = document.createElement('div');
+        description.className = 'card-text';
+        description.textContent = item.Description || "No Description";
+        card.appendChild(title);
+        card.appendChild(description);
+        container.appendChild(card);
       });
+    }
+
+    async function loadExcelFile() {
+      if (location.protocol === 'file:') {
+        document.getElementById('cardContainer').innerHTML = `
+          <div style="text-align:center; color:red; font-size:1.2em; margin-top:50px;">
+            ⚠️ Please open this file using a Local Server (like Live Server or Python Server).
+          </div>`;
+        return;
+      }
+
+      try {
+        const response = await fetch('cards.xlsx');
+        const arrayBuffer = await response.arrayBuffer();
+        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+        populateCards(jsonData);
+      } catch (error) {
+        console.error("Error loading cards.xlsx:", error);
+      }
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       toggleClearBtn();
       updateStatusText();
-
+      loadExcelFile();
       const banner = document.getElementById("noticeBanner");
       banner.classList.add("show");
-      setTimeout(() => {
-        banner.classList.remove("show");
-      }, 4000);
+      setTimeout(() => { banner.classList.remove("show"); }, 4000);
     });
   </script>
 
