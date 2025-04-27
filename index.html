@@ -63,6 +63,12 @@
       padding: 20px 0;
       border-radius: 0 0 20px 20px;
       z-index: 100;
+      transition: padding 0.3s ease, height 0.3s ease;
+    }
+
+    .header.expand {
+      padding: 20px 0 30px;
+      height: auto;
     }
 
     .header img {
@@ -80,19 +86,15 @@
     }
 
     .header p {
-      margin: 5px 0 0;
+      margin: 5px 0 20px;
       font-size: 1.2em;
       color: var(--subtext-color);
     }
 
     .search-bar {
-      position: fixed;
-      top: 100px;
       width: 100%;
       text-align: center;
-      padding: 0;
       background-color: transparent;
-      z-index: 99;
     }
 
     .search-container {
@@ -101,13 +103,12 @@
       align-items: center;
       width: 300px;
       margin: 0 auto;
-      padding: 20px 0 5px;
     }
 
     .search-bar input {
       width: 100%;
       height: 40px;
-      padding: 0 40px 0 15px;
+      padding: 0 35px 0 15px;
       border: 1px solid var(--hover-outline);
       background-color: var(--input-bg);
       color: var(--input-text);
@@ -121,7 +122,6 @@
       border: 2px solid var(--hover-outline);
     }
 
-    /* New addition: hover glow */
     .search-bar input:hover {
       box-shadow: 0 0 8px var(--search-hover-glow);
     }
@@ -129,19 +129,35 @@
     .clear-btn {
       position: absolute;
       right: 10px;
+      font-size: 18px;
       color: var(--placeholder);
       cursor: pointer;
-      font-size: 20px;
       user-select: none;
       display: none;
+      background: none;
+      border: none;
+      padding: 0;
     }
 
     .search-status {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       font-size: 1em;
-      color: var(--subtext-color);
-      margin-top: 5px;
-      text-align: center;
-      display: none;
+      color: black; /* Changed to black */
+      margin-top: 8px;
+      opacity: 0;
+      transition: opacity 0.3s ease, top 0.3s ease;
+      background-color: yellow;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    .search-status.visible {
+      opacity: 1;
+      top: 80%;
     }
 
     .container {
@@ -149,7 +165,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
-      padding: 230px 20px 80px;
+      padding: 180px 20px 80px;
     }
 
     .card {
@@ -268,20 +284,17 @@
 </head>
 <body>
 
-  <div class="header">
+  <div class="header" id="header">
     <img src="logo.webp" alt="Logo">
     <h1>Information Cards on Class-VIII, Vivekananda</h1>
     <p>Proudly coded by <strong>Tanvir Hasan</strong></p>
-  </div>
-
-  <div class="search-bar">
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search" oninput="searchCards(); toggleClearBtn(); updateStatusText(); scrollToTop();">
-      <span class="clear-btn" id="clearBtn" onclick="clearSearch()">
-        <img src="close.png" height="15" width="15">
-      </span>
+    <div class="search-bar">
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search" oninput="searchCards(); toggleClearBtn(); updateStatusText(); scrollToTop();">
+        <button class="clear-btn" id="clearBtn" onclick="clearSearch()">×</button>
+      </div>
+      <div id="searchStatus" class="search-status"></div>
     </div>
-    <div id="searchStatus" class="search-status"></div>
   </div>
 
   <div class="container" id="cardContainer">
@@ -332,11 +345,15 @@
     function updateStatusText() {
       const input = document.getElementById("searchInput").value.trim();
       const status = document.getElementById("searchStatus");
+      const header = document.getElementById("header");
       if (input) {
         status.innerText = `You searched for "${input}"`;
-        status.style.display = "block";
+        status.classList.add("visible");
+        header.classList.add("expand");
       } else {
-        status.style.display = "none";
+        status.innerText = "";
+        status.classList.remove("visible");
+        header.classList.remove("expand");
       }
     }
 
