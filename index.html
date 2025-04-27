@@ -23,6 +23,7 @@
       --hover-outline: #A3F07B;
       --search-hover-glow: rgba(255, 255, 255, 0.3);
     }
+
     @media (prefers-color-scheme: dark) {
       :root {
         --bg-color: #1e1e1e;
@@ -33,6 +34,8 @@
         --input-bg: #333;
         --input-text: white;
         --placeholder: #999;
+        --hover-outline: #A3F07B;
+        --search-hover-glow: rgba(255, 255, 255, 0.2);
       }
     }
 
@@ -113,9 +116,12 @@
       outline: none;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
+
     .search-bar input:focus {
       border: 2px solid var(--hover-outline);
     }
+
+    /* New addition: hover glow */
     .search-bar input:hover {
       box-shadow: 0 0 8px var(--search-hover-glow);
     }
@@ -155,25 +161,13 @@
       padding: 20px;
       display: flex;
       flex-direction: column;
-      height: 240px;
-      position: relative;
+      height: 220px;
       transition: all 0.3s ease;
     }
+
     .card:hover {
       outline: 3px solid var(--hover-outline);
       box-shadow: 0 0 10px var(--hover-outline);
-    }
-
-    .card-date {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background-color: #ffc107;
-      color: black;
-      padding: 4px 10px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 0.85em;
     }
 
     .card-title {
@@ -191,6 +185,7 @@
       padding-right: 10px;
       scrollbar-width: none;
     }
+
     .card-text::-webkit-scrollbar {
       display: none;
     }
@@ -206,26 +201,32 @@
       border-radius: 20px 20px 0 0;
       box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
     }
+
     .footer a {
       color: #007BFF;
       text-decoration: none;
     }
+
     .footer a:hover {
       text-decoration: underline;
     }
+
     .social-icons {
       margin-top: 5px;
     }
+
     .social-icons a {
       margin: 0 8px;
       display: inline-block;
     }
+
     .social-icons img {
       width: 28px;
       height: 28px;
       filter: grayscale(100%) brightness(0);
       transition: filter 0.3s ease;
     }
+
     .social-icons img:hover {
       filter: none;
     }
@@ -244,6 +245,7 @@
       z-index: 9999;
       transition: right 0.5s ease-in-out;
     }
+
     .notice-banner.show {
       right: 30px;
     }
@@ -253,16 +255,17 @@
         flex-direction: column;
         align-items: center;
       }
+
       .card {
         width: 90%;
       }
+
       .search-container {
         width: 90%;
       }
     }
   </style>
 </head>
-
 <body>
 
   <div class="header">
@@ -347,20 +350,12 @@
       data.forEach(item => {
         const card = document.createElement('div');
         card.className = 'card';
-
-        const date = document.createElement('div');
-        date.className = 'card-date';
-        date.textContent = item.Date || "No Date";
-
         const title = document.createElement('div');
         title.className = 'card-title';
         title.textContent = item.Title || "No Title";
-
         const description = document.createElement('div');
         description.className = 'card-text';
         description.textContent = item.Description || "No Description";
-
-        card.appendChild(date);
         card.appendChild(title);
         card.appendChild(description);
         container.appendChild(card);
