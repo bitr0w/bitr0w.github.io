@@ -194,7 +194,7 @@
     }
 
     .card-text {
-      font-size: 0.95em;
+      font-size: 1.05em; /* 🔥 slightly bigger font */
       color: var(--subtext-color);
       overflow-y: auto;
       flex-grow: 1;
@@ -282,6 +282,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="header" id="header">
@@ -372,7 +373,7 @@
         title.textContent = item.Title || "No Title";
         const description = document.createElement('div');
         description.className = 'card-text';
-        description.innerHTML = item.Description ? item.Description.replace(/\n/g, "<br>") : "No Description";
+        description.innerHTML = item.Description || "No Description";
         card.appendChild(title);
         card.appendChild(description);
         container.appendChild(card);
