@@ -372,7 +372,7 @@
         title.textContent = item.Title || "No Title";
         const description = document.createElement('div');
         description.className = 'card-text';
-        description.innerHTML = (item.Description || "No Description").replace(/\n/g, "<br>");
+        description.innerHTML = item.Description ? item.Description.replace(/\n/g, "<br>") : "No Description";
         card.appendChild(title);
         card.appendChild(description);
         container.appendChild(card);
