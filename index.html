@@ -13,17 +13,16 @@
       color-scheme: light dark;
       accent-color: #3ba36c;
       --bg-color: #f4f4f4;
-      --card-bg: white;
+      --card-bg: #ffffff;
       --text-color: #333;
       --subtext-color: #777;
       --border-color: #ccc;
       --input-bg: #2c2c2c;
-      --input-text: white;
+      --input-text: #fff;
       --placeholder: #ccc;
       --hover-outline: #A3F07B;
       --search-hover-glow: rgba(255, 255, 255, 0.3);
     }
-
     @media (prefers-color-scheme: dark) {
       :root {
         --bg-color: #1e1e1e;
@@ -32,251 +31,203 @@
         --subtext-color: #aaa;
         --border-color: #444;
         --input-bg: #333;
-        --input-text: white;
+        --input-text: #fff;
         --placeholder: #999;
-        --hover-outline: #A3F07B;
-        --search-hover-glow: rgba(255, 255, 255, 0.2);
       }
     }
-
-    html, body {
-      font-family: 'Google Sans', Arial, sans-serif;
+    body, html {
       margin: 0;
-      background-color: var(--bg-color);
+      font-family: 'Google Sans', Arial, sans-serif;
+      background: var(--bg-color);
       overflow-x: hidden;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
-
     body::-webkit-scrollbar {
       display: none;
     }
-
     .header {
       position: fixed;
       top: 0;
       width: 100%;
-      background-color: var(--card-bg);
+      background: var(--card-bg);
+      padding: 20px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      text-align: center;
-      padding: 20px 0;
       border-radius: 0 0 20px 20px;
-      z-index: 100;
-      transition: padding 0.3s ease, height 0.3s ease;
+      text-align: center;
+      z-index: 1000;
+      transition: all 0.3s ease;
     }
-
-    .header.expand {
-      padding: 20px 0 30px;
-      height: auto;
-    }
-
     .header img {
       position: absolute;
       top: 20px;
       left: 20px;
-      width: 80px;
+      width: 70px;
       height: auto;
     }
-
     .header h1 {
       margin: 0;
       font-size: 2em;
       color: var(--text-color);
     }
-
     .header p {
-      margin: 5px 0 20px;
-      font-size: 1.2em;
+      margin: 5px 0 10px;
       color: var(--subtext-color);
+      font-size: 1.2em;
     }
-
     .search-bar {
-      width: 100%;
-      text-align: center;
-      background-color: transparent;
+      margin-top: 10px;
     }
-
     .search-container {
       position: relative;
-      display: flex;
-      align-items: center;
       width: 300px;
       margin: 0 auto;
+      display: flex;
+      align-items: center;
     }
-
-    .search-bar input {
+    .search-container input {
       width: 100%;
       height: 40px;
-      padding: 0 35px 0 15px;
-      border: 1px solid var(--hover-outline);
-      background-color: var(--input-bg);
-      color: var(--input-text);
+      padding: 0 40px 0 15px;
       border-radius: 999px;
+      background: var(--input-bg);
+      color: var(--input-text);
+      border: 1px solid var(--hover-outline);
       font-size: 1em;
       outline: none;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
-
-    .search-bar input:focus {
+    .search-container input:focus {
       border: 2px solid var(--hover-outline);
     }
-
-    .search-bar input:hover {
-      box-shadow: 0 0 8px var(--search-hover-glow);
-    }
-
     .clear-btn {
       position: absolute;
       right: 10px;
-      font-size: 18px;
-      color: var(--placeholder);
-      cursor: pointer;
-      user-select: none;
-      display: none;
       background: none;
       border: none;
-      padding: 0;
+      color: var(--placeholder);
+      font-size: 20px;
+      cursor: pointer;
+      display: none;
     }
-
     .search-status {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 1em;
-      color: black;
       margin-top: 8px;
-      opacity: 0;
-      transition: opacity 0.3s ease, top 0.3s ease;
-      background-color: yellow;
+      font-size: 1em;
+      background: yellow;
       padding: 5px 15px;
       border-radius: 20px;
       font-weight: bold;
+      display: inline-block;
+      opacity: 0;
+      transition: all 0.3s ease;
     }
-
     .search-status.visible {
       opacity: 1;
-      top: 80%;
     }
-
     .container {
+      padding: 200px 20px 60px;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
-      padding: 180px 20px 80px;
     }
-
     .card {
-      background-color: var(--card-bg);
-      border-radius: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      background: var(--card-bg);
       width: 300px;
-      overflow: hidden;
+      border-radius: 20px;
       padding: 20px;
       display: flex;
       flex-direction: column;
       height: 220px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       transition: all 0.3s ease;
     }
-
     .card:hover {
       outline: 3px solid var(--hover-outline);
       box-shadow: 0 0 10px var(--hover-outline);
     }
-
     .card-title {
-      font-size: 1.25em;
+      font-size: 1.3em;
       margin-bottom: 10px;
       color: var(--text-color);
-      flex-shrink: 0;
     }
-
     .card-text {
-      font-size: 1.05em; /* 🔥 slightly bigger font */
+      flex-grow: 1;
+      font-size: 1.05em;
       color: var(--subtext-color);
       overflow-y: auto;
-      flex-grow: 1;
-      padding-right: 10px;
+      padding-right: 8px;
       scrollbar-width: none;
     }
-
     .card-text::-webkit-scrollbar {
       display: none;
     }
-
     .footer {
+      margin-top: auto;
       background: var(--card-bg);
       border-top: 1px solid var(--border-color);
       text-align: center;
-      padding: 10px 0;
+      padding: 15px 0;
+      border-radius: 20px 20px 0 0;
       font-size: 1em;
       color: var(--subtext-color);
-      margin-top: auto;
-      border-radius: 20px 20px 0 0;
       box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
     }
-
     .footer a {
       color: #007BFF;
       text-decoration: none;
     }
-
     .footer a:hover {
       text-decoration: underline;
     }
-
     .social-icons {
       margin-top: 5px;
     }
-
     .social-icons a {
       margin: 0 8px;
       display: inline-block;
     }
-
     .social-icons img {
       width: 28px;
       height: 28px;
       filter: grayscale(100%) brightness(0);
       transition: filter 0.3s ease;
     }
-
     .social-icons img:hover {
       filter: none;
     }
-
     .notice-banner {
       position: fixed;
       top: 30px;
       right: -100%;
-      background-color: #3ba36c;
+      background: #3ba36c;
       color: white;
       padding: 15px 25px;
       border-radius: 20px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      font-size: 1em;
       font-weight: bold;
-      z-index: 9999;
+      font-size: 1em;
       transition: right 0.5s ease-in-out;
+      z-index: 9999;
     }
-
     .notice-banner.show {
       right: 30px;
     }
-
     @media (max-width: 768px) {
+      .header img {
+        position: static;
+        display: block;
+        margin: 0 auto 10px;
+      }
+      .search-container {
+        width: 90%;
+      }
       .container {
+        padding-top: 250px;
         flex-direction: column;
         align-items: center;
       }
-
       .card {
-        width: 90%;
-      }
-
-      .search-container {
         width: 90%;
       }
     }
@@ -285,132 +236,168 @@
 
 <body>
 
-  <div class="header" id="header">
-    <img src="logo.webp" alt="Logo">
-    <h1>Information Cards on Class-VIII, Vivekananda</h1>
-    <p>Proudly coded by <strong>Tanvir Hasan</strong></p>
-    <div class="search-bar">
-      <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search" oninput="searchCards(); toggleClearBtn(); updateStatusText(); scrollToTop();">
-        <button class="clear-btn" id="clearBtn" onclick="clearSearch()">×</button>
-      </div>
-      <div id="searchStatus" class="search-status"></div>
+<div class="header" id="header">
+  <img src="logo.webp" alt="Logo">
+  <h1>Information Cards on Class-VIII, Vivekananda</h1>
+  <p>Proudly coded by <strong>Tanvir Hasan</strong></p>
+  <div class="search-bar">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search" oninput="searchCards(); toggleClearBtn(); updateStatusText(); easterEggs(); scrollToTop();">
+      <button class="clear-btn" id="clearBtn" onclick="clearSearch()">×</button>
     </div>
+    <div id="searchStatus" class="search-status"></div>
   </div>
+</div>
 
-  <div class="container" id="cardContainer">
-    <!-- Cards will be populated dynamically -->
+<div class="container" id="cardContainer">
+  <!-- Cards will be inserted dynamically -->
+</div>
+
+<div class="footer">
+  <p>Made with ❤️ by <a href="https://www.instagram.com/404.bitrow.notfound/">Tanvir Hasan</a></p>
+  <div class="social-icons">
+    <a href="https://github.com/bitr0w" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"></a>
+    <a href="https://www.instagram.com/404.bitrow.notfound/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
   </div>
+</div>
 
-  <div class="footer">
-    <p>Made with ❤️ by <a href="https://www.instagram.com/404.bitrow.notfound/">Tanvir Hasan</a></p>
-    <div class="social-icons">
-      <a href="https://github.com/bitr0w" target="_blank">
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
-      </a>
-      <a href="https://www.instagram.com/404.bitrow.notfound/" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
-      </a>
-    </div>
-  </div>
+<div class="notice-banner" id="noticeBanner">
+  This website is open sourced, Created for everyone.
+</div>
 
-  <div class="notice-banner" id="noticeBanner">
-    This website is open sourced, Created for everyone.
-  </div>
+<script>
+// search and card loading logic
+function searchCards() {
+  const input = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    const title = card.querySelector('.card-title').textContent.toLowerCase();
+    const text = card.querySelector('.card-text').textContent.toLowerCase();
+    card.style.display = (title.includes(input) || text.includes(input)) ? "flex" : "none";
+  });
+}
 
-  <script>
-    function searchCards() {
-      const input = document.getElementById("searchInput").value.toLowerCase();
-      const cards = document.querySelectorAll(".card");
-      cards.forEach(card => {
-        const title = card.querySelector(".card-title").textContent.toLowerCase();
-        const text = card.querySelector(".card-text").textContent.toLowerCase();
-        card.style.display = (title.includes(input) || text.includes(input)) ? "flex" : "none";
-      });
-    }
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  searchCards();
+  toggleClearBtn();
+  updateStatusText();
+}
 
-    function clearSearch() {
-      const input = document.getElementById("searchInput");
-      input.value = "";
-      searchCards();
-      toggleClearBtn();
-      updateStatusText();
-    }
+function toggleClearBtn() {
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('clearBtn');
+  clearBtn.style.display = input.value ? 'block' : 'none';
+}
 
-    function toggleClearBtn() {
-      const input = document.getElementById("searchInput");
-      const clearBtn = document.getElementById("clearBtn");
-      clearBtn.style.display = input.value ? "block" : "none";
-    }
+function updateStatusText() {
+  const input = document.getElementById('searchInput').value.trim();
+  const status = document.getElementById('searchStatus');
+  if (input) {
+    status.innerText = `You searched for "${input}"`;
+    status.classList.add('visible');
+  } else {
+    status.innerText = '';
+    status.classList.remove('visible');
+  }
+}
 
-    function updateStatusText() {
-      const input = document.getElementById("searchInput").value.trim();
-      const status = document.getElementById("searchStatus");
-      const header = document.getElementById("header");
-      if (input) {
-        status.innerText = `You searched for "${input}"`;
-        status.classList.add("visible");
-        header.classList.add("expand");
-      } else {
-        status.innerText = "";
-        status.classList.remove("visible");
-        header.classList.remove("expand");
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function populateCards(data) {
+  const container = document.getElementById('cardContainer');
+  container.innerHTML = '';
+  data.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-title">${item.Title || "No Title"}</div>
+      <div class="card-text">${item.Description || "No Description"}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+async function loadExcelFile() {
+  if (location.protocol === 'file:') {
+    document.getElementById('cardContainer').innerHTML = `<div style="text-align:center;color:red;margin-top:50px;">⚠️ Open this file using a Local Server</div>`;
+    return;
+  }
+  try {
+    const response = await fetch('cards.xlsx');
+    const arrayBuffer = await response.arrayBuffer();
+    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const jsonData = XLSX.utils.sheet_to_json(sheet);
+    populateCards(jsonData);
+  } catch (error) {
+    console.error('Error loading cards.xlsx:', error);
+  }
+}
+
+// Easter Eggs
+function easterEggs() {
+  const input = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (input === 'tanvir') {
+    alert('🎉 Surprise! Confetti for Tanvir!');
+    confetti();
+  }
+  if (input === 'darkmagic') {
+    document.documentElement.style.setProperty('--bg-color', '#121212');
+    document.documentElement.style.setProperty('--card-bg', '#222');
+    document.documentElement.style.setProperty('--text-color', '#eee');
+    document.documentElement.style.setProperty('--subtext-color', '#aaa');
+    alert('🌑 Dark Magic Activated!');
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === 'H') {
+    alert('👋 Hello Developer! You found a hidden shortcut!');
+  }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  toggleClearBtn();
+  updateStatusText();
+  loadExcelFile();
+  const banner = document.getElementById('noticeBanner');
+  setTimeout(() => {
+    banner.classList.add('show');
+    setTimeout(() => banner.classList.remove('show'), 4000);
+  }, 2000);
+});
+
+// Simple confetti effect
+function confetti() {
+  const duration = 2 * 1000;
+  const end = Date.now() + duration;
+  (function frame() {
+    const colors = ['#ff0', '#f0f', '#0ff', '#f90', '#09f'];
+    const el = document.createElement('div');
+    el.style.position = 'fixed';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = '-10px';
+    el.style.width = '10px';
+    el.style.height = '10px';
+    el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    el.style.borderRadius = '50%';
+    el.style.opacity = 0.7;
+    el.style.zIndex = 9999;
+    document.body.appendChild(el);
+    const fall = setInterval(() => {
+      if (parseInt(el.style.top) > window.innerHeight) {
+        clearInterval(fall);
+        document.body.removeChild(el);
       }
-    }
-
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function populateCards(data) {
-      const container = document.getElementById('cardContainer');
-      container.innerHTML = '';
-      data.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        const title = document.createElement('div');
-        title.className = 'card-title';
-        title.textContent = item.Title || "No Title";
-        const description = document.createElement('div');
-        description.className = 'card-text';
-        description.innerHTML = item.Description || "No Description";
-        card.appendChild(title);
-        card.appendChild(description);
-        container.appendChild(card);
-      });
-    }
-
-    async function loadExcelFile() {
-      if (location.protocol === 'file:') {
-        document.getElementById('cardContainer').innerHTML = `
-          <div style="text-align:center; color:red; font-size:1.2em; margin-top:50px;">
-            ⚠️ Please open this file using a Local Server (like Live Server or Python Server).
-          </div>`;
-        return;
-      }
-      try {
-        const response = await fetch('cards.xlsx');
-        const arrayBuffer = await response.arrayBuffer();
-        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(sheet);
-        populateCards(jsonData);
-      } catch (error) {
-        console.error("Error loading cards.xlsx:", error);
-      }
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      toggleClearBtn();
-      updateStatusText();
-      loadExcelFile();
-      const banner = document.getElementById("noticeBanner");
-      setTimeout(() => {
-        banner.classList.add("show");
-        setTimeout(() => { banner.classList.remove("show"); }, 4000);
-      }, 2000);
-    });
-  </script>
+      el.style.top = (parseInt(el.style.top) || 0) + 5 + 'px';
+    }, 30);
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
+}
+</script>
 
 </body>
 </html>
