@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tanvir's InfoHub™</title>
   <link rel="icon" type="image/x-icon" href="icon.ico">
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
   <style>
     :root {
       color-scheme: light dark;
@@ -137,7 +138,7 @@
       padding: 20px;
       display: flex;
       flex-direction: column;
-      height: auto;
+      height: 220px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       transition: all 0.3s ease;
     }
@@ -151,6 +152,7 @@
       color: var(--text-color);
     }
     .card-text {
+      flex-grow: 1;
       font-size: 1.05em;
       color: var(--subtext-color);
       overflow-y: auto;
@@ -233,173 +235,169 @@
 </head>
 
 <body>
-  <div class="header" id="header">
-    <img src="logo.webp" alt="Logo">
-    <h1>Information Cards on Class-VIII, Vivekananda</h1>
-    <p>Proudly coded by <strong>Tanvir Hasan</strong></p>
-    <div class="search-bar">
-      <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search" oninput="searchCards(); toggleClearBtn(); updateStatusText(); easterEggs(); scrollToTop();">
-        <button class="clear-btn" id="clearBtn" onclick="clearSearch()">×</button>
-      </div>
-      <div id="searchStatus" class="search-status"></div>
+
+<div class="header" id="header">
+  <img src="logo.webp" alt="Logo">
+  <h1>Information Cards on Class-VIII, Vivekananda</h1>
+  <p>Proudly coded by <strong>Tanvir Hasan</strong></p>
+  <div class="search-bar">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search" oninput="searchCards(); toggleClearBtn(); updateStatusText(); easterEggs(); scrollToTop();">
+      <button class="clear-btn" id="clearBtn" onclick="clearSearch()">×</button>
     </div>
+    <div id="searchStatus" class="search-status"></div>
   </div>
+</div>
 
-  <div class="container" id="cardContainer"></div>
+<div class="container" id="cardContainer">
+  <!-- Cards will be inserted dynamically -->
+</div>
 
-  <div class="footer">
-    <p>Made with ❤️ by <a href="https://www.instagram.com/404.bitrow.notfound/">Tanvir Hasan</a></p>
-    <div class="social-icons">
-      <a href="https://github.com/bitr0w" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"></a>
-      <a href="https://www.instagram.com/404.bitrow.notfound/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
-    </div>
+<div class="footer">
+  <p>Made with ❤️ by <a href="https://www.instagram.com/404.bitrow.notfound/">Tanvir Hasan</a></p>
+  <div class="social-icons">
+    <a href="https://github.com/bitr0w" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"></a>
+    <a href="https://www.instagram.com/404.bitrow.notfound/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
   </div>
+</div>
 
-  <div class="notice-banner" id="noticeBanner">This website is open sourced, Created for everyone.</div>
+<div class="notice-banner" id="noticeBanner">
+  This website is open sourced, Created for everyone.
+</div>
 
-  <script>
-    function searchCards() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(card => {
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
-        const text = card.querySelector('.card-text').textContent.toLowerCase();
-        card.style.display = (title.includes(input) || text.includes(input)) ? "flex" : "none";
-      });
-    }
+<script>
+// search and card loading logic
+function searchCards() {
+  const input = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    const title = card.querySelector('.card-title').textContent.toLowerCase();
+    const text = card.querySelector('.card-text').textContent.toLowerCase();
+    card.style.display = (title.includes(input) || text.includes(input)) ? "flex" : "none";
+  });
+}
 
-    function clearSearch() {
-      document.getElementById('searchInput').value = '';
-      searchCards();
-      toggleClearBtn();
-      updateStatusText();
-    }
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  searchCards();
+  toggleClearBtn();
+  updateStatusText();
+}
 
-    function toggleClearBtn() {
-      const input = document.getElementById('searchInput');
-      const clearBtn = document.getElementById('clearBtn');
-      clearBtn.style.display = input.value ? 'block' : 'none';
-    }
+function toggleClearBtn() {
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('clearBtn');
+  clearBtn.style.display = input.value ? 'block' : 'none';
+}
 
-    function updateStatusText() {
-      const input = document.getElementById('searchInput').value.trim();
-      const status = document.getElementById('searchStatus');
-      if (input) {
-        status.innerText = `You searched for "${input}"`;
-        status.classList.add('visible');
-      } else {
-        status.innerText = '';
-        status.classList.remove('visible');
+function updateStatusText() {
+  const input = document.getElementById('searchInput').value.trim();
+  const status = document.getElementById('searchStatus');
+  if (input) {
+    status.innerText = `You searched for "${input}"`;
+    status.classList.add('visible');
+  } else {
+    status.innerText = '';
+    status.classList.remove('visible');
+  }
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function populateCards(data) {
+  const container = document.getElementById('cardContainer');
+  container.innerHTML = '';
+  data.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-title">${item.Title || "No Title"}</div>
+      <div class="card-text">${item.Description || "No Description"}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+async function loadExcelFile() {
+  if (location.protocol === 'file:') {
+    document.getElementById('cardContainer').innerHTML = `<div style="text-align:center;color:red;margin-top:50px;">⚠️ Open this file using a Local Server</div>`;
+    return;
+  }
+  try {
+    const response = await fetch('cards.xlsx');
+    const arrayBuffer = await response.arrayBuffer();
+    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const jsonData = XLSX.utils.sheet_to_json(sheet);
+    populateCards(jsonData);
+  } catch (error) {
+    console.error('Error loading cards.xlsx:', error);
+  }
+}
+
+// Easter Eggs
+function easterEggs() {
+  const input = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (input === 'tanvir') {
+    alert('🎉 Surprise! Confetti for Tanvir!');
+    confetti();
+  }
+  if (input === 'darkmagic') {
+    document.documentElement.style.setProperty('--bg-color', '#121212');
+    document.documentElement.style.setProperty('--card-bg', '#222');
+    document.documentElement.style.setProperty('--text-color', '#eee');
+    document.documentElement.style.setProperty('--subtext-color', '#aaa');
+    alert('🌑 Dark Magic Activated!');
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === 'H') {
+    alert('👋 Hello Developer! You found a hidden shortcut!');
+  }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  toggleClearBtn();
+  updateStatusText();
+  loadExcelFile();
+  const banner = document.getElementById('noticeBanner');
+  setTimeout(() => {
+    banner.classList.add('show');
+    setTimeout(() => banner.classList.remove('show'), 4000);
+  }, 2000);
+});
+
+// Simple confetti effect
+function confetti() {
+  const duration = 2 * 1000;
+  const end = Date.now() + duration;
+  (function frame() {
+    const colors = ['#ff0', '#f0f', '#0ff', '#f90', '#09f'];
+    const el = document.createElement('div');
+    el.style.position = 'fixed';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = '-10px';
+    el.style.width = '10px';
+    el.style.height = '10px';
+    el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    el.style.borderRadius = '50%';
+    el.style.opacity = 0.7;
+    el.style.zIndex = 9999;
+    document.body.appendChild(el);
+    const fall = setInterval(() => {
+      if (parseInt(el.style.top) > window.innerHeight) {
+        clearInterval(fall);
+        document.body.removeChild(el);
       }
-    }
+      el.style.top = (parseInt(el.style.top) || 0) + 5 + 'px';
+    }, 30);
+    if (Date.now() < end) requestAnimationFrame(frame);
+  })();
+}
+</script>
 
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function toggleDropdown(index) {
-      const dropdown = document.getElementById(`dropdown-${index}`);
-      dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function populateCards(data) {
-      const container = document.getElementById('cardContainer');
-      container.innerHTML = '';
-      data.forEach((item, index) => {
-        const hasAttachment = item.Attachment && item.Attachment.trim() !== '';
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="card-title">${item.Title || "No Title"}</div>
-          <div class="card-text">${item.Description || "No Description"}</div>
-          ${hasAttachment ? `
-            <div style="margin-top: 10px;">
-              <button onclick="toggleDropdown(${index})" style="background: none; border: none; cursor: pointer; font-size: 1.1em;">⬇️ Attachment</button>
-              <div id="dropdown-${index}" class="dropdown" style="display: none; margin-top: 10px; border-radius: 15px; padding: 10px; background: var(--input-bg); color: var(--input-text);">
-                <a href="${item.Attachment}" download style="color: #A3F07B; text-decoration: none;">📥 Download File</a>
-              </div>
-            </div>` : ''}
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    async function loadExcelFile() {
-      if (location.protocol === 'file:') {
-        document.getElementById('cardContainer').innerHTML = `<div style="text-align:center;color:red;margin-top:50px;">⚠️ Open this file using a Local Server</div>`;
-        return;
-      }
-      try {
-        const response = await fetch('cards.xlsx');
-        const arrayBuffer = await response.arrayBuffer();
-        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json(sheet);
-        populateCards(jsonData);
-      } catch (error) {
-        console.error('Error loading cards.xlsx:', error);
-      }
-    }
-
-    function easterEggs() {
-      const input = document.getElementById('searchInput').value.trim().toLowerCase();
-      if (input === 'tanvir') {
-        alert('🎉 Surprise! Confetti for Tanvir!');
-        confetti();
-      }
-      if (input === 'darkmagic') {
-        document.documentElement.style.setProperty('--bg-color', '#121212');
-        document.documentElement.style.setProperty('--card-bg', '#222');
-        document.documentElement.style.setProperty('--text-color', '#eee');
-        document.documentElement.style.setProperty('--subtext-color', '#aaa');
-        alert('🌑 Dark Magic Activated!');
-      }
-    }
-
-    document.addEventListener('keydown', function(e) {
-      if (e.ctrlKey && e.shiftKey && e.key === 'H') {
-        alert('👋 Hello Developer! You found a hidden shortcut!');
-      }
-    });
-
-    window.addEventListener('DOMContentLoaded', () => {
-      toggleClearBtn();
-      updateStatusText();
-      loadExcelFile();
-      const banner = document.getElementById('noticeBanner');
-      setTimeout(() => {
-        banner.classList.add('show');
-        setTimeout(() => banner.classList.remove('show'), 4000);
-      }, 2000);
-    });
-
-    function confetti() {
-      const duration = 2 * 1000;
-      const end = Date.now() + duration;
-      (function frame() {
-        const colors = ['#ff0', '#f0f', '#0ff', '#f90', '#09f'];
-        const el = document.createElement('div');
-        el.style.position = 'fixed';
-        el.style.left = Math.random() * 100 + 'vw';
-        el.style.top = '-10px';
-        el.style.width = '10px';
-        el.style.height = '10px';
-        el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        el.style.borderRadius = '50%';
-        el.style.opacity = 0.7;
-        el.style.zIndex = 9999;
-        document.body.appendChild(el);
-        const fall = setInterval(() => {
-          if (parseInt(el.style.top) > window.innerHeight) {
-            clearInterval(fall);
-            document.body.removeChild(el);
-          }
-          el.style.top = (parseInt(el.style.top) || 0) + 5 + 'px';
-        }, 30);
-        if (Date.now() < end) requestAnimationFrame(frame);
-      })();
-    }
-  </script>
 </body>
 </html>
