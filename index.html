@@ -2,32 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sorry</title>
-  <link rel="icon" type="image/x-icon" href="close.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Me</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     html, body {
-      height: 100%;
       margin: 0;
-    }
-    body {
+      padding: 0;
+      height: 100vh;
+      overflow: hidden; /* Removes scroll bar */
+      font-family: 'Google Sans', sans-serif;
+      background-color: #f0f0f0;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #f0f0f0; /* Optional background */
+      text-align: center;
+      flex-direction: column;
     }
+
     img {
-      width: 450px; /* Medium size image */
-      max-width: 90%;
-      height: auto;
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      margin-bottom: 20px;
     }
-    h2 {
-     font-family:Google Sans;
+
+    h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    p {
+      max-width: 600px;
+      margin: 10px auto 30px;
+      font-size: 1em;
+      color: #333;
+    }
+
+    .social-icons a {
+      margin: 0 10px;
+      color: #333;
+      text-decoration: none;
+      font-size: 1.5em;
+      transition: color 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      color: #0073e6;
     }
   </style>
 </head>
 <body>
-  <img src="tvs.png" alt="Centered Image">
-  <h2>Sorry, Tanvir closed the connection</h2>
+
+  <img src="me.jpg" alt="Your Photo" />
+  <h1>About Me</h1>
+  <p>
+I'am Tanvir Hasan. Been reading in class 8. Have somewhat good computer knowledge.
+  </p>
+
+  <div class="social-icons">
+    <a href="https://instagram.com/bitr0w" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://github.com/bitr0w" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://reddit.com/user/RealBitrow" target="_blank"><i class="fab fa-reddit"></i></a>
+    <a href="https://youtube.com/@ABoyInWorld" target="_blank"><i class="fab fa-youtube"></i></a>
+  </div>
+
 </body>
 </html>
