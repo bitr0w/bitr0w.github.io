@@ -9,18 +9,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
   <style>
-    /* Colorful theme */
     :root {
-      color-scheme: light dark;
-      accent-color: #ff6f61;
       --bg-color: #fffbe6;
       --card-bg: #ffffff;
-      --text-color: #2b2d42;
-      --subtext-color: #8d99ae;
-      --border-color: #edf2f4;
-      --input-bg: #f4f1ff;
-      --input-text: #2b2d42;
-      --placeholder: #adb5bd;
+      --text-color: #1a1a1a;
+      --subtext-color: #333333;
+      --border-color: #ccc;
+      --input-bg: #ffffff;
+      --input-text: #000000;
+      --placeholder: #666666;
       --hover-outline: #ff6f61;
       --search-hover-glow: rgba(255, 111, 97, 0.4);
     }
@@ -97,6 +94,10 @@
       outline: none;
     }
 
+    .search-bar input::placeholder {
+      color: var(--placeholder);
+    }
+
     .search-bar input:hover {
       box-shadow: 0 0 10px var(--search-hover-glow);
     }
@@ -126,9 +127,9 @@
     }
 
     .card {
-      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+      background: #ffffff;
       border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       width: 300px;
       padding: 20px;
       display: flex;
@@ -147,7 +148,7 @@
       top: 15px;
       right: 15px;
       background-color: #ffcb05;
-      color: #2b2d42;
+      color: #000;
       padding: 4px 10px;
       border-radius: 8px;
       font-weight: bold;
@@ -155,13 +156,14 @@
     }
 
     .card-title {
-      font-size: 1.25em;
+      font-size: 1.3em;
+      font-weight: bold;
       margin-bottom: 10px;
       color: var(--text-color);
     }
 
     .card-text {
-      font-size: 0.95em;
+      font-size: 1em;
       color: var(--subtext-color);
       overflow-y: auto;
       flex-grow: 1;
