@@ -1,39 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tanvir's InfoHub™</title>
-  <link rel="icon" type="image/x-icon" href="icon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="icon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
   <style>
+    /* Colorful theme */
     :root {
       color-scheme: light dark;
-      accent-color: #3ba36c;
-      --bg-color: #f4f4f4;
-      --card-bg: white;
-      --text-color: #333;
-      --subtext-color: #777;
-      --border-color: #ccc;
-      --input-bg: #2c2c2c;
-      --input-text: white;
-      --placeholder: #ccc;
-      --hover-outline: #A3F07B;
-      --search-hover-glow: rgba(255, 255, 255, 0.3);
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg-color: #1e1e1e;
-        --card-bg: #2c2c2c;
-        --text-color: #eee;
-        --subtext-color: #aaa;
-        --border-color: #444;
-        --input-bg: #333;
-        --input-text: white;
-        --placeholder: #999;
-      }
+      accent-color: #ff6f61;
+      --bg-color: #fffbe6;
+      --card-bg: #ffffff;
+      --text-color: #2b2d42;
+      --subtext-color: #8d99ae;
+      --border-color: #edf2f4;
+      --input-bg: #f4f1ff;
+      --input-text: #2b2d42;
+      --placeholder: #adb5bd;
+      --hover-outline: #ff6f61;
+      --search-hover-glow: rgba(255, 111, 97, 0.4);
     }
 
     html, body {
@@ -46,16 +35,11 @@
       flex-direction: column;
     }
 
-    body::-webkit-scrollbar {
-      display: none;
-    }
-
     .header {
       position: fixed;
       top: 0;
       width: 100%;
-      background-color: var(--card-bg);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
       text-align: center;
       padding: 20px 0;
       border-radius: 0 0 20px 20px;
@@ -73,13 +57,13 @@
     .header h1 {
       margin: 0;
       font-size: 2em;
-      color: var(--text-color);
+      color: #fff;
     }
 
     .header p {
       margin: 5px 0 0;
       font-size: 1.2em;
-      color: var(--subtext-color);
+      color: #f7f7f7;
     }
 
     .search-bar {
@@ -105,28 +89,23 @@
       width: 100%;
       height: 40px;
       padding: 0 40px 0 15px;
-      border: 1px solid var(--hover-outline);
+      border: 2px solid var(--hover-outline);
       background-color: var(--input-bg);
       color: var(--input-text);
       border-radius: 999px;
       font-size: 1em;
       outline: none;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
-    .search-bar input:focus {
-      border: 2px solid var(--hover-outline);
-    }
+
     .search-bar input:hover {
-      box-shadow: 0 0 8px var(--search-hover-glow);
+      box-shadow: 0 0 10px var(--search-hover-glow);
     }
 
     .clear-btn {
       position: absolute;
       right: 10px;
-      color: var(--placeholder);
       cursor: pointer;
       font-size: 20px;
-      user-select: none;
       display: none;
     }
 
@@ -147,29 +126,28 @@
     }
 
     .card {
-      background-color: var(--card-bg);
+      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
       border-radius: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       width: 300px;
-      overflow: hidden;
       padding: 20px;
       display: flex;
       flex-direction: column;
       height: 240px;
       position: relative;
-      transition: all 0.3s ease;
     }
+
     .card:hover {
       outline: 3px solid var(--hover-outline);
-      box-shadow: 0 0 10px var(--hover-outline);
+      box-shadow: 0 0 15px var(--hover-outline);
     }
 
     .card-date {
       position: absolute;
       top: 15px;
       right: 15px;
-      background-color: #ffc107;
-      color: black;
+      background-color: #ffcb05;
+      color: #2b2d42;
       padding: 4px 10px;
       border-radius: 8px;
       font-weight: bold;
@@ -180,7 +158,6 @@
       font-size: 1.25em;
       margin-bottom: 10px;
       color: var(--text-color);
-      flex-shrink: 0;
     }
 
     .card-text {
@@ -189,52 +166,38 @@
       overflow-y: auto;
       flex-grow: 1;
       padding-right: 10px;
-      scrollbar-width: none;
-    }
-    .card-text::-webkit-scrollbar {
-      display: none;
     }
 
     .footer {
-      background: var(--card-bg);
+      background: linear-gradient(to right, #84fab0, #8fd3f4);
       border-top: 1px solid var(--border-color);
       text-align: center;
       padding: 10px 0;
       font-size: 1em;
-      color: var(--subtext-color);
+      color: var(--text-color);
       margin-top: auto;
       border-radius: 20px 20px 0 0;
-      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
     }
+
     .footer a {
       color: #007BFF;
       text-decoration: none;
     }
+
     .footer a:hover {
       text-decoration: underline;
     }
-    .social-icons {
-      margin-top: 5px;
-    }
-    .social-icons a {
-      margin: 0 8px;
-      display: inline-block;
-    }
+
     .social-icons img {
       width: 28px;
       height: 28px;
-      filter: grayscale(100%) brightness(0);
-      transition: filter 0.3s ease;
-    }
-    .social-icons img:hover {
-      filter: none;
     }
 
     .notice-banner {
       position: fixed;
       top: 30px;
       right: -100%;
-      background-color: #3ba36c;
+      background-color: #ff6f61;
       color: white;
       padding: 15px 25px;
       border-radius: 20px;
@@ -244,25 +207,12 @@
       z-index: 9999;
       transition: right 0.5s ease-in-out;
     }
+
     .notice-banner.show {
       right: 30px;
     }
-
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        align-items: center;
-      }
-      .card {
-        width: 90%;
-      }
-      .search-container {
-        width: 90%;
-      }
-    }
   </style>
 </head>
-
 <body>
 
   <div class="header">
@@ -281,9 +231,7 @@
     <div id="searchStatus" class="search-status"></div>
   </div>
 
-  <div class="container" id="cardContainer">
-    <!-- Cards will be populated dynamically -->
-  </div>
+  <div class="container" id="cardContainer"></div>
 
   <div class="footer">
     <p>Made with ❤️ by <a href="https://www.instagram.com/404.bitrow.notfound/">Tanvir Hasan</a></p>
@@ -297,9 +245,7 @@
     </div>
   </div>
 
-  <div class="notice-banner" id="noticeBanner">
-    This website is open sourced, Created for everyone.
-  </div>
+  <div class="notice-banner" id="noticeBanner">This website is open sourced, Created for everyone.</div>
 
   <script>
     function searchCards() {
@@ -368,13 +314,6 @@
     }
 
     async function loadExcelFile() {
-      if (location.protocol === 'file:') {
-        document.getElementById('cardContainer').innerHTML = `
-          <div style="text-align:center; color:red; font-size:1.2em; margin-top:50px;">
-            ⚠️ Please open this file using a Local Server (like Live Server or Python Server).
-          </div>`;
-        return;
-      }
       try {
         const response = await fetch('cards.xlsx');
         const arrayBuffer = await response.arrayBuffer();
@@ -383,7 +322,7 @@
         const jsonData = XLSX.utils.sheet_to_json(sheet);
         populateCards(jsonData);
       } catch (error) {
-        console.error("Error loading cards.xlsx:", error);
+        document.getElementById('cardContainer').innerHTML = `<div style="color:red; text-align:center;">❌ Could not load Excel file. Please check 'cards.xlsx'</div>`;
       }
     }
 
