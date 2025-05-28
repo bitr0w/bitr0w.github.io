@@ -1,26 +1,403 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tanvir's InfoHub™</title>
+  <link rel="icon" type="image/x-icon" href="icon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: light dark;
+      accent-color: #3ba36c;
+      --bg-color: #f4f4f4;
+      --card-bg: white;
+      --text-color: #333;
+      --subtext-color: #777;
+      --border-color: #ccc;
+      --input-bg: #2c2c2c;
+      --input-text: white;
+      --placeholder: #ccc;
+      --hover-outline: #A3F07B;
+      --search-hover-glow: rgba(255, 255, 255, 0.3);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #1e1e1e;
+        --card-bg: #2c2c2c;
+        --text-color: #eee;
+        --subtext-color: #aaa;
+        --border-color: #444;
+        --input-bg: #333;
+        --input-text: white;
+        --placeholder: #999;
+      }
+    }
+
+    html, body {
+      font-family: 'Google Sans', Arial, sans-serif;
+      margin: 0;
+      background-color: var(--bg-color);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: var(--card-bg);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      padding: 20px 0;
+      border-radius: 0 0 20px 20px;
+      z-index: 100;
+    }
+
+    .header img {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 80px;
+      height: auto;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2em;
+      color: var(--text-color);
+    }
+
+    .header p {
+      margin: 5px 0 0;
+      font-size: 1.2em;
+      color: var(--subtext-color);
+    }
+
+    .search-bar {
+      position: fixed;
+      top: 100px;
+      width: 100%;
+      text-align: center;
+      padding: 0;
+      background-color: transparent;
+      z-index: 99;
+    }
+
+    .search-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px 0 5px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      height: 40px;
+      padding: 0 40px 0 15px;
+      border: 1px solid var(--hover-outline);
+      background-color: var(--input-bg);
+      color: var(--input-text);
+      border-radius: 999px;
+      font-size: 1em;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .search-bar input:focus {
+      border: 2px solid var(--hover-outline);
+    }
+    .search-bar input:hover {
+      box-shadow: 0 0 8px var(--search-hover-glow);
+    }
+
+    .clear-btn {
+      position: absolute;
+      right: 10px;
+      color: var(--placeholder);
+      cursor: pointer;
+      font-size: 20px;
+      user-select: none;
+      display: none;
+    }
+
+    .search-status {
+      font-size: 1em;
+      color: var(--subtext-color);
+      margin-top: 5px;
+      text-align: center;
+      display: none;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 230px 20px 80px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 300px;
+      overflow: hidden;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      height: 240px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      outline: 3px solid var(--hover-outline);
+      box-shadow: 0 0 10px var(--hover-outline);
+    }
+
+    .card-date {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: #ffc107;
+      color: black;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.85em;
+    }
+
+    .card-title {
+      font-size: 1.25em;
+      margin-bottom: 10px;
+      color: var(--text-color);
+      flex-shrink: 0;
+    }
+
+    .card-text {
+      font-size: 0.95em;
+      color: var(--subtext-color);
+      overflow-y: auto;
+      flex-grow: 1;
+      padding-right: 10px;
+      scrollbar-width: none;
+    }
+    .card-text::-webkit-scrollbar {
+      display: none;
+    }
+
+    .footer {
+      background: var(--card-bg);
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+      padding: 10px 0;
+      font-size: 1em;
+      color: var(--subtext-color);
+      margin-top: auto;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .footer a {
+      color: #007BFF;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    .social-icons {
+      margin-top: 5px;
+    }
+    .social-icons a {
+      margin: 0 8px;
+      display: inline-block;
+    }
+    .social-icons img {
+      width: 28px;
+      height: 28px;
+      filter: grayscale(100%) brightness(0);
+      transition: filter 0.3s ease;
+    }
+    .social-icons img:hover {
+      filter: none;
+    }
+
+    .notice-banner {
+      position: fixed;
+      top: 30px;
+      right: -100%;
+      background-color: #3ba36c;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      font-size: 1em;
+      font-weight: bold;
+      z-index: 9999;
+      transition: right 0.5s ease-in-out;
+    }
+    .notice-banner.show {
+      right: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .card {
+        width: 90%;
+      }
+      .search-container {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
 <body>
-<form enctype="plain/text" method="post" action="mailto:arfineleo@gmail.com">
-<input type="image" src="Silent_Sparrow.webp" height="150" width="150"><br>
-<h3>Fill the form below and WIN a trip to PARIS!!!!!!!!</h3>
-<br>
-<Lebel>Name     </Lebel><input type="textbox" size=12><br>
-<Lebel>Gender:     </Lebel><input type="radio" name="gender"><Lebel>Male</Lebel><input type="radio" name="gender"><Lebel>Female</Lebel><br>
-<Lebel>Age     </Lebel>
-<select>
-<option>10
-<option>11
-<option>12
-<option>13
-<option>14
-<option>15
-<option>16
-<option>17
-<option>18
-</select><br>
-<Lebel>Address     </Lebel><textarea rows="2" cols="12"></textarea><br>
-<Lebel>Interests     </Lebel><input type="checkbox"><Lebel>Computer</Lebel><input type="checkbox"><Lebel>Games</Lebel><input type="checkbox"><Lebel>Books</Lebel><br>
-<Lebel>Upload your photo here:     </Lebel><input type="file" value="photo"><br>
-<input type="submit" value="submit"><input type="reset" value="reset">
 
+  <div class="header">
+    <img src="logo.webp" alt="Logo">
+    <h1>Information Cards on Class-VIII, Vivekananda</h1>
+    <p>Proudly coded by <strong>Tanvir Hasan</strong></p>
+  </div>
 
+  <div class="search-bar">
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search" oninput="searchCards(); toggleClearBtn(); updateStatusText(); scrollToTop();">
+      <span class="clear-btn" id="clearBtn" onclick="clearSearch()">
+        <img src="close.png" height="15" width="15">
+      </span>
+    </div>
+    <div id="searchStatus" class="search-status"></div>
+  </div>
+
+  <div class="container" id="cardContainer">
+    <!-- Cards will be populated dynamically -->
+  </div>
+
+  <div class="footer">
+    <p>Made with ❤️ by <a href="https://www.instagram.com/404.bitrow.notfound/">Tanvir Hasan</a></p>
+    <div class="social-icons">
+      <a href="https://github.com/bitr0w" target="_blank">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+      </a>
+      <a href="https://www.instagram.com/404.bitrow.notfound/" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+      </a>
+    </div>
+  </div>
+
+  <div class="notice-banner" id="noticeBanner">
+    This website is open sourced, Created for everyone.
+  </div>
+
+  <script>
+    function searchCards() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".card");
+      cards.forEach(card => {
+        const title = card.querySelector(".card-title").textContent.toLowerCase();
+        const text = card.querySelector(".card-text").textContent.toLowerCase();
+        card.style.display = (title.includes(input) || text.includes(input)) ? "flex" : "none";
+      });
+    }
+
+    function clearSearch() {
+      const input = document.getElementById("searchInput");
+      input.value = "";
+      searchCards();
+      toggleClearBtn();
+      updateStatusText();
+    }
+
+    function toggleClearBtn() {
+      const input = document.getElementById("searchInput");
+      const clearBtn = document.getElementById("clearBtn");
+      clearBtn.style.display = input.value ? "block" : "none";
+    }
+
+    function updateStatusText() {
+      const input = document.getElementById("searchInput").value.trim();
+      const status = document.getElementById("searchStatus");
+      if (input) {
+        status.innerText = `You searched for "${input}"`;
+        status.style.display = "block";
+      } else {
+        status.style.display = "none";
+      }
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function populateCards(data) {
+      const container = document.getElementById('cardContainer');
+      container.innerHTML = '';
+      data.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const date = document.createElement('div');
+        date.className = 'card-date';
+        date.textContent = item.Date || "No Date";
+
+        const title = document.createElement('div');
+        title.className = 'card-title';
+        title.textContent = item.Title || "No Title";
+
+        const description = document.createElement('div');
+        description.className = 'card-text';
+        description.textContent = item.Description || "No Description";
+
+        card.appendChild(date);
+        card.appendChild(title);
+        card.appendChild(description);
+        container.appendChild(card);
+      });
+    }
+
+    async function loadExcelFile() {
+      if (location.protocol === 'file:') {
+        document.getElementById('cardContainer').innerHTML = `
+          <div style="text-align:center; color:red; font-size:1.2em; margin-top:50px;">
+            ⚠️ Please open this file using a Local Server (like Live Server or Python Server).
+          </div>`;
+        return;
+      }
+      try {
+        const response = await fetch('cards.xlsx');
+        const arrayBuffer = await response.arrayBuffer();
+        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+        populateCards(jsonData);
+      } catch (error) {
+        console.error("Error loading cards.xlsx:", error);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      toggleClearBtn();
+      updateStatusText();
+      loadExcelFile();
+      const banner = document.getElementById("noticeBanner");
+      setTimeout(() => {
+        banner.classList.add("show");
+        setTimeout(() => { banner.classList.remove("show"); }, 4000);
+      }, 2000);
+    });
+  </script>
+
+</body>
+</html>
